@@ -104,7 +104,8 @@ return baseclass.extend({
 				systeminfo.load[1] / 65535.0,
 				systeminfo.load[2] / 65535.0
 			) : null,
-			_('CPU usage'),    cpuusage.cpuusage
+			_('CPU usage'),    cpuusage.cpuusage,
+			_('Contact Us'), '<a href=\"https://lightspeedog.com\" target=\"_blank\">https://lightspeedog.com</a>'
 		];
 
 		if (tempinfo.tempinfo) {
@@ -115,10 +116,20 @@ return baseclass.extend({
 		var table = E('table', { 'class': 'table' });
 
 		for (var i = 0; i < fields.length; i += 2) {
-			table.appendChild(E('tr', { 'class': 'tr' }, [
-				E('td', { 'class': 'td left', 'width': '33%' }, [ fields[i] ]),
-				E('td', { 'class': 'td left' }, [ (fields[i + 1] != null) ? fields[i + 1] : '?' ])
-			]));
+			var key = fields[i];
+			var val = fields[i + 1];
+			var tr = E('tr', { 'class': 'tr' });
+			tr.appendChild(E('td', { 'class': 'td left', 'width': '33%' }, [ key ]));
+		
+			if (key == _('Contact Us')) {
+				var td = document.createElement('td');
+				td.className = 'td left';
+				td.innerHTML = val;
+				tr.appendChild(td);
+			} else {
+				tr.appendChild(E('td', { 'class': 'td left' }, [ val != null ? val : '?' ]));
+			}
+			table.appendChild(tr);
 		}
 
 		return table;
